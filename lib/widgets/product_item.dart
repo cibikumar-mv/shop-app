@@ -1,19 +1,21 @@
 
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
+  // final String id;
+  // final String title;
+  // final String imageUrl;
+  //
+  // const ProductItem(this.id, this.title, this.imageUrl);
 
-  const ProductItem(this.id, this.title, this.imageUrl);
+
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -21,19 +23,21 @@ class ProductItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pushNamed(
               ProductDetailScreen.routeName,
-              arguments: id,
+              arguments: product.id,
             );
           },
           child: Image.network(
-            imageUrl,
+            product.imageUrl,
             fit: BoxFit.cover,
           ),
         ),
         footer: GridTileBar(
           leading: IconButton(
             color: Theme.of(context).accentColor,
-            icon: Icon(Icons.favorite_border_outlined),
-            onPressed: () {},
+            icon: product.isFavourite?Icon(Icons.favorite_rounded) : Icon(Icons.favorite_border_outlined),
+            onPressed: () {
+              product.toggleFavourite();
+            },
           ),
           trailing: IconButton(
             color: Theme.of(context).accentColor,
@@ -42,7 +46,7 @@ class ProductItem extends StatelessWidget {
           ),
           backgroundColor: Colors.black54,
           title: Text(
-            title,
+            product.title,
             textAlign: TextAlign.center,
           ),
         ),
