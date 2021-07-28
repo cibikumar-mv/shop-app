@@ -47,7 +47,7 @@ class CartScreen extends StatelessWidget {
                   Consumer<Cart>(
                     builder: (_, cart, _s) => Chip(
                       label: Text(
-                        "\$${cart.totalAmount}",
+                        "\$${cart.totalAmount.toStringAsPrecision(5)}",
                         style: TextStyle(
                             color: Theme.of(context)
                                 .primaryTextTheme
