@@ -20,14 +20,37 @@ class CartItem extends StatelessWidget {
       background: Container(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.delete_forever,color: Colors.redAccent, size: 30,),
+          child: Icon(
+            Icons.delete_forever,
+            color: Colors.redAccent,
+            size: 30,
+          ),
         ),
         alignment: Alignment.centerRight,
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
         color: Colors.black12,
       ),
       onDismissed: (direction) {
-        Provider.of<Cart>(context,listen: false).deleteItem(productid);
+        Provider.of<Cart>(context, listen: false).deleteItem(productid);
+      },
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Are you sure?"),
+            content: Text("Do you want to remove the item from the cart?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text("Yes"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text("No"),
+              ),
+            ],
+          ),
+        );
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),

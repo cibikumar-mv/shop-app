@@ -11,7 +11,6 @@ class ProductItem extends StatelessWidget {
   //
   // const ProductItem(this.id, this.title, this.imageUrl);
 
-
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
@@ -33,26 +32,34 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           leading: Consumer<Product>(
-            builder: (ctx, product, child) =>
-                IconButton(
-                  color: Theme
-                      .of(context)
-                      .accentColor,
-                  icon: product.isFavourite
-                      ? Icon(Icons.favorite_rounded)
-                      : Icon(Icons.favorite_border_outlined),
-                  onPressed: () {
-                    product.toggleFavourite();
-                  },
-                ),
+            builder: (ctx, product, child) => IconButton(
+              color: Theme.of(context).accentColor,
+              icon: product.isFavourite
+                  ? Icon(Icons.favorite_rounded)
+                  : Icon(Icons.favorite_border_outlined),
+              onPressed: () {
+                product.toggleFavourite();
+              },
+            ),
           ),
           trailing: IconButton(
-            color: Theme
-                .of(context)
-                .accentColor,
+            color: Theme.of(context).accentColor,
             icon: Icon(Icons.add_shopping_cart),
             onPressed: () {
               cart.addItems(product.id, product.price, product.title);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {
+                      cart.deleteSingleItem(product.id);
+                    },
+                  ),
+                  content: Text("Item added to cart!"),
+                  duration: Duration(seconds: 3),
+                ),
+              );
             },
           ),
           backgroundColor: Colors.black54,
