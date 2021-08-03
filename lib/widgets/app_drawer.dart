@@ -11,7 +11,6 @@ class AppDrawer extends StatelessWidget {
           AppBar(
             title: Text("Orders"),
           ),
-          Divider(),
           ListTile(
             leading: Icon(Icons.shop),
             title: Text("Shop"),
